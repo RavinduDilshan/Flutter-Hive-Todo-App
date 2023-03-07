@@ -30,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter Hive Demo'),
+        title: const Text('TO - DO'),
         actions: [
           PopupMenuButton(onSelected: (String value) {
             if (value.compareTo('All') == 0) {
@@ -47,7 +47,10 @@ class _MyHomePageState extends State<MyHomePage> {
               });
             }
           }, itemBuilder: (context) {
-            return ['All', 'Completed', 'Progress'].map((option) => PopupMenuItem(value: option, child: Text(option))).toList();
+            return ['All', 'Completed', 'Progress']
+                .map((option) =>
+                    PopupMenuItem(value: option, child: Text(option)))
+                .toList();
           })
         ],
       ),
@@ -63,9 +66,15 @@ class _MyHomePageState extends State<MyHomePage> {
                         if (filter == DataFilter.ALL) {
                           keys = items.keys.cast<int>().toList();
                         } else if (filter == DataFilter.COMPLETED) {
-                          keys = items.keys.cast<int>().where((key) => items.get(key)!.complete).toList();
+                          keys = items.keys
+                              .cast<int>()
+                              .where((key) => items.get(key)!.complete)
+                              .toList();
                         } else {
-                          keys = items.keys.cast<int>().where((key) => !items.get(key)!.complete).toList();
+                          keys = items.keys
+                              .cast<int>()
+                              .where((key) => !items.get(key)!.complete)
+                              .toList();
                         }
 
                         return ListView.separated(
@@ -81,19 +90,24 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: ListTile(
                                   title: Text(
                                     data.title,
-                                    style: const TextStyle(fontSize: 22, color: Colors.black),
+                                    style: const TextStyle(
+                                        fontSize: 22, color: Colors.black),
                                   ),
-                                  subtitle: Text(data.description, style: const TextStyle(fontSize: 20, color: Colors.black38)),
+                                  subtitle: Text(data.description,
+                                      style: const TextStyle(
+                                          fontSize: 20, color: Colors.black38)),
                                   leading: Text(
                                     "$key",
-                                    style: const TextStyle(fontSize: 18, color: Colors.black),
+                                    style: const TextStyle(
+                                        fontSize: 18, color: Colors.black),
                                   ),
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       GestureDetector(
                                         onTap: () {
-                                          _showDeleteConfirmationAlertDialog(context, key);
+                                          _showDeleteConfirmationAlertDialog(
+                                              context, key);
                                         },
                                         child: const Icon(
                                           Icons.delete,
@@ -105,7 +119,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ),
                                       Icon(
                                         Icons.check,
-                                        color: data.complete ? Colors.deepPurpleAccent : Colors.red,
+                                        color: data.complete
+                                            ? Colors.deepPurpleAccent
+                                            : Colors.red,
                                       )
                                     ],
                                   ),
@@ -121,15 +137,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                               children: <Widget>[
                                                 FlatButton(
                                                   shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(10.0),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
                                                   ),
                                                   color: Colors.blueAccent[100],
                                                   child: const Text(
                                                     "Mark as complete",
-                                                    style: TextStyle(color: Colors.black87),
+                                                    style: TextStyle(
+                                                        color: Colors.black87),
                                                   ),
                                                   onPressed: () {
-                                                    ToDoModel mData = ToDoModel(title: data.title, description: data.description, complete: true);
+                                                    ToDoModel mData = ToDoModel(
+                                                        title: data.title,
+                                                        description:
+                                                            data.description,
+                                                        complete: true);
                                                     dataBox!.put(key, mData);
                                                     Navigator.pop(context);
                                                   },
@@ -165,14 +188,16 @@ class _MyHomePageState extends State<MyHomePage> {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           TextField(
-                            decoration: const InputDecoration(hintText: "Title"),
+                            decoration:
+                                const InputDecoration(hintText: "Title"),
                             controller: titleController,
                           ),
                           const SizedBox(
                             height: 8,
                           ),
                           TextField(
-                            decoration: const InputDecoration(hintText: "Description"),
+                            decoration:
+                                const InputDecoration(hintText: "Description"),
                             controller: descriptionController,
                           ),
                           const SizedBox(
@@ -184,15 +209,19 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             color: Colors.red,
                             child: const Text(
-                              "Add Data",
+                              "Add Todo",
                               style: TextStyle(color: Colors.white),
                             ),
                             onPressed: () {
                               final String title = titleController.text;
-                              final String description = descriptionController.text;
+                              final String description =
+                                  descriptionController.text;
                               titleController.clear();
                               descriptionController.clear();
-                              ToDoModel data = ToDoModel(title: title, description: description, complete: false);
+                              ToDoModel data = ToDoModel(
+                                  title: title,
+                                  description: description,
+                                  complete: false);
                               dataBox!.add(data);
                               Navigator.pop(context);
                             },
